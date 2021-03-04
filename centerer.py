@@ -5,14 +5,35 @@ from PIL import Image
 
 def center(file):
     inputImage = Image.open(file)
-    wi = inputImage.shape[1]
-    he = inputImage.shape[0]
-    newWi = 2*wi
-    newHe = 2*he
-    image = Image.new('RGBA', (newWi, newHe))
-    image.putalpha(0) 
-    
-    name = os.path.splitext(file)[0]
-    name +=  '_Centered.png'
+    try:
+        inputImage.verify()
+    except Exception:
+        print('Invalid image')
+    wi = inputImage.size[1]
+    he = inputImage.size[0]
+    newWi = int(2*wi)
+    newHe = int(2*he)
+    newImage = Image.new('RGBA', (newWi, newHe),(255,255,255,0))
+    topcorH = int(he/2)
+    topcorW = int(wi/2)
+    newImage.paste(inputImage.copy(), (topcorH,topcorH))
+    newName = sys.argv[1].split(".")[0]
+    newName += '_Centered.png'
+    newImage.save(name, "PNG")
 
-    img.save(name, "PNG")
+if __name__ == "__main__":    
+    #center(str(sys.argv[1]))
+    inputImage = Image.open("bank.png")
+    wi = inputImage.size[1]
+    he = inputImage.size[0]
+    newWi = int(2*wi)
+    newHe = int(2*he)
+    newImage = Image.new('RGBA', (newWi, newHe),(255,255,255,0))
+    topcorH = int(he/2)
+    topcorW = int(wi/2)
+    newImage.paste(inputImage.copy(), (topcorH,topcorH))
+    newName = sys.argv[1].split(".")[0]
+    newName += '_Centered.png'
+    newImage.save('centeredBank.png')
+
+    #print(f'centered {name} as {newName}')
